@@ -7,7 +7,9 @@ namespace Modules.MemoryStructures
 {
     public class Scratch
     {
+        //属性：视野半径
         public int VisionRadius { get; set; } = 4;
+        //属性：注意力带宽-表示对象可以同时处理多少个任务或信息的属性-可以决定角色在某一时刻可以关注多少个敌人或目标
         public int AttentionBandwidth { get; set; } = 3;
         public DateTime? CurrentTime { get; set; }
         public (int x, int y)? CurrentTile { get; set; }

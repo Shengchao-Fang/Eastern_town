@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Eastern Town")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+62347ddf80621282fd5beb35b20dd489832f1d46")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b9df978051dfef6b087b65df2de840bd6899b5c")]
 [assembly: System.Reflection.AssemblyProductAttribute("Eastern Town")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Eastern Town")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

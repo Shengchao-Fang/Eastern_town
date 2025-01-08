@@ -1,5 +1,5 @@
 // AssociativeMemory.cs
-// ¸ÃÎÄ¼ş¶¨ÒåÁËAssociativeMemoryÀà£¬ÓÃÓÚ¹ÜÀí½ÇÉ«µÄ¹ØÁª¼ÇÒä¡£
+// è¯¥æ–‡ä»¶å®šä¹‰äº†AssociativeMemoryç±»ï¼Œç”¨äºç®¡ç†è§’è‰²çš„å…³è”è®°å¿†ã€‚
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,15 +7,15 @@ using Newtonsoft.Json;
 
 namespace Modules.MemoryStructures
 {
-    // AssociativeMemoryÀàÀ©Õ¹£¬Ö§³Ö¹Ø¼ü´ÊÈ¨ÖØµ÷Õû
+    // AssociativeMemoryç±»æ‰©å±•ï¼Œæ”¯æŒå…³é”®è¯æƒé‡è°ƒæ•´
     public class AssociativeMemory
     {
-        // ´æ´¢¹ØÁª¼ÇÒäµÄ¸ÅÄî½Úµã£¬Ã¿¸ö½Úµã±íÊ¾Ò»¸ö¼ÇÒäÌõÄ¿
+        // å­˜å‚¨å…³è”è®°å¿†çš„æ¦‚å¿µèŠ‚ç‚¹ï¼Œæ¯ä¸ªèŠ‚ç‚¹è¡¨ç¤ºä¸€ä¸ªè®°å¿†æ¡ç›®
         public Dictionary<string, ConceptNode> Nodes { get; private set; }
-        // ´æ´¢¹Ø¼ü´ÊÓëÆä¹ØÁªÇ¿¶ÈµÄÓ³Éä£¬ÓÃÓÚ¿ìËÙ¼ìË÷Ïà¹Ø¼ÇÒä
+        // å­˜å‚¨å…³é”®è¯ä¸å…¶å…³è”å¼ºåº¦çš„æ˜ å°„ï¼Œç”¨äºå¿«é€Ÿæ£€ç´¢ç›¸å…³è®°å¿†
         public Dictionary<string, double> KeywordStrength { get; private set; }
 
-        // ¹¹Ôìº¯Êı£¬´ÓÖ¸¶¨ÎÄ¼ş¼Ğ¼ÓÔØNodesºÍKeywordStrength
+        // æ„é€ å‡½æ•°ï¼Œä»æŒ‡å®šæ–‡ä»¶å¤¹åŠ è½½Nodeså’ŒKeywordStrength
         public AssociativeMemory(string savedFolderPath)
         {
             string nodesPath = Path.Combine(savedFolderPath, "nodes.json");
@@ -29,7 +29,7 @@ namespace Modules.MemoryStructures
                 : new Dictionary<string, double>();
         }
 
-        // ±£´æNodesºÍKeywordStrengthµ½Ö¸¶¨ÎÄ¼ş¼Ğ
+        // ä¿å­˜Nodeså’ŒKeywordStrengthåˆ°æŒ‡å®šæ–‡ä»¶å¤¹
         public void Save(string outputFolderPath)
         {
             string nodesPath = Path.Combine(outputFolderPath, "nodes.json");
@@ -39,7 +39,7 @@ namespace Modules.MemoryStructures
             File.WriteAllText(keywordStrengthPath, JsonConvert.SerializeObject(KeywordStrength, Formatting.Indented));
         }
 
-        // µ÷Õû¹Ø¼ü´ÊµÄÈ¨ÖØ
+        // è°ƒæ•´å…³é”®è¯çš„æƒé‡
         public void AdjustKeywordStrength(string keyword, double adjustment)
         {
             if (KeywordStrength.ContainsKey(keyword))
@@ -47,7 +47,7 @@ namespace Modules.MemoryStructures
                 KeywordStrength[keyword] += adjustment;
                 if (KeywordStrength[keyword] < 0)
                 {
-                    KeywordStrength[keyword] = 0; // È·±£È¨ÖØ²»Îª¸ºÖµ
+                    KeywordStrength[keyword] = 0; // ç¡®ä¿æƒé‡ä¸ä¸ºè´Ÿå€¼
                 }
             }
             else
@@ -56,7 +56,7 @@ namespace Modules.MemoryStructures
             }
         }
 
-        // ¸ù¾İ¹Ø¼ü´Ê¼ìË÷Ïà¹ØµÄ¸ÅÄî½Úµã
+        // æ ¹æ®å…³é”®è¯æ£€ç´¢ç›¸å…³çš„æ¦‚å¿µèŠ‚ç‚¹
         public List<ConceptNode> GetRelevantNodesByKeyword(string keyword)
         {
             var relevantNodes = new List<ConceptNode>();
@@ -73,17 +73,17 @@ namespace Modules.MemoryStructures
         }
     }
 
-    // ConceptNodeÀà±íÊ¾Ò»¸ö¹ØÁª¼ÇÒäµÄ½Úµã
+    // ConceptNodeç±»è¡¨ç¤ºä¸€ä¸ªå…³è”è®°å¿†çš„èŠ‚ç‚¹
     public class ConceptNode
     {
-        public string NodeId { get; set; } // ½ÚµãÎ¨Ò»±êÊ¶
-        public string Type { get; set; } // ½ÚµãÀàĞÍ£¬ÀıÈç thought / event / chat
-        public DateTime Created { get; set; } // ½Úµã´´½¨Ê±¼ä
-        public DateTime? Expiration { get; set; } // ½Úµã¹ıÆÚÊ±¼ä£¨¿ÉÑ¡£©
-        public string Subject { get; set; } // ¼ÇÒäÖ÷Ìå
-        public string Predicate { get; set; } // ¼ÇÒäÎ½Óï
-        public string Object { get; set; } // ¼ÇÒä±öÓï
-        public string Description { get; set; } // ½ÚµãÃèÊö
-        public List<string> Keywords { get; set; } // ½ÚµãÏà¹ØµÄ¹Ø¼ü´Ê
+        public string NodeId { get; set; } // èŠ‚ç‚¹å”¯ä¸€æ ‡è¯†
+        public string Type { get; set; } // èŠ‚ç‚¹ç±»å‹ï¼Œä¾‹å¦‚ thought / event / chat
+        public DateTime Created { get; set; } // èŠ‚ç‚¹åˆ›å»ºæ—¶é—´
+        public DateTime? Expiration { get; set; } // èŠ‚ç‚¹è¿‡æœŸæ—¶é—´ï¼ˆå¯é€‰ï¼‰
+        public string Subject { get; set; } // è®°å¿†ä¸»ä½“
+        public string Predicate { get; set; } // è®°å¿†è°“è¯­
+        public string Object { get; set; } // è®°å¿†å®¾è¯­
+        public string Description { get; set; } // èŠ‚ç‚¹æè¿°
+        public List<string> Keywords { get; set; } // èŠ‚ç‚¹ç›¸å…³çš„å…³é”®è¯
     }
 }

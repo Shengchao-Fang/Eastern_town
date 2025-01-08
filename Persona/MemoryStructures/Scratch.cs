@@ -7,9 +7,9 @@ namespace Modules.MemoryStructures
 {
     public class Scratch
     {
-        //ÊôĞÔ£ºÊÓÒ°°ë¾¶
+        //å±æ€§ï¼šè§†é‡åŠå¾„
         public int VisionRadius { get; set; } = 4;
-        //ÊôĞÔ£º×¢ÒâÁ¦´ø¿í-±íÊ¾¶ÔÏó¿ÉÒÔÍ¬Ê±´¦Àí¶àÉÙ¸öÈÎÎñ»òĞÅÏ¢µÄÊôĞÔ-¿ÉÒÔ¾ö¶¨½ÇÉ«ÔÚÄ³Ò»Ê±¿Ì¿ÉÒÔ¹Ø×¢¶àÉÙ¸öµĞÈË»òÄ¿±ê
+        //å±æ€§ï¼šæ³¨æ„åŠ›å¸¦å®½-è¡¨ç¤ºå¯¹è±¡å¯ä»¥åŒæ—¶å¤„ç†å¤šå°‘ä¸ªä»»åŠ¡æˆ–ä¿¡æ¯çš„å±æ€§-å¯ä»¥å†³å®šè§’è‰²åœ¨æŸä¸€æ—¶åˆ»å¯ä»¥å…³æ³¨å¤šå°‘ä¸ªæ•Œäººæˆ–ç›®æ ‡
         public int AttentionBandwidth { get; set; } = 3;
         public DateTime? CurrentTime { get; set; }
         public (int x, int y)? CurrentTile { get; set; }

@@ -1,55 +1,55 @@
 // PathFinder.cs
-// ¸ÃÎÄ¼ş¶¨ÒåÁËPathFinderÀà£¬ÓÃÓÚÊµÏÖ½ÇÉ«ÔÚÃÔ¹¬ÖĞµÄÂ·¾¶¹æ»®¡£
+// è¯¥æ–‡ä»¶å®šä¹‰äº†PathFinderç±»ï¼Œç”¨äºå®ç°è§’è‰²åœ¨è¿·å®«ä¸­çš„è·¯å¾„è§„åˆ’ã€‚
 using System;
 using System.Collections.Generic;
 using Modules.Environment;
 
 namespace Modules.PathFinding
 {
-    // PathFinderÀà¸ºÔğÔÚÃÔ¹¬ÖĞ½øĞĞÂ·¾¶ËÑË÷
+    // PathFinderç±»è´Ÿè´£åœ¨è¿·å®«ä¸­è¿›è¡Œè·¯å¾„æœç´¢
     public static class PathFinder
     {
         /// <summary>
-        /// A*Ëã·¨ÊµÏÖ£¬ÓÃÓÚ²éÕÒ´ÓÆğµãµ½ÖÕµãµÄ×î¶ÌÂ·¾¶¡£
+        /// A*ç®—æ³•å®ç°ï¼Œç”¨äºæŸ¥æ‰¾ä»èµ·ç‚¹åˆ°ç»ˆç‚¹çš„æœ€çŸ­è·¯å¾„ã€‚
         /// </summary>
-        /// <param name="maze">µ±Ç°µÄÃÔ¹¬¶ÔÏó¡£</param>
-        /// <param name="start">ÆğµãÍßÆ¬×ø±ê (x, y)¡£</param>
-        /// <param name="end">ÖÕµãÍßÆ¬×ø±ê (x, y)¡£</param>
-        /// <returns>Ò»¸öÍßÆ¬ÁĞ±í£¬±íÊ¾´ÓÆğµãµ½ÖÕµãµÄÂ·¾¶¡£</returns>
+        /// <param name="maze">å½“å‰çš„è¿·å®«å¯¹è±¡ã€‚</param>
+        /// <param name="start">èµ·ç‚¹ç“¦ç‰‡åæ ‡ (x, y)ã€‚</param>
+        /// <param name="end">ç»ˆç‚¹ç“¦ç‰‡åæ ‡ (x, y)ã€‚</param>
+        /// <returns>ä¸€ä¸ªç“¦ç‰‡åˆ—è¡¨ï¼Œè¡¨ç¤ºä»èµ·ç‚¹åˆ°ç»ˆç‚¹çš„è·¯å¾„ã€‚</returns>
         public static List<Tile> FindPath(Maze maze, (int x, int y) start, (int x, int y) end)
         {
             var openSet = new PriorityQueue<TileNode>();
             var closedSet = new HashSet<(int x, int y)>();
 
-            // ³õÊ¼»¯Æğµã½Úµã
+            // åˆå§‹åŒ–èµ·ç‚¹èŠ‚ç‚¹
             var startNode = new TileNode(maze.GetTile(start.x, start.y), null, 0, Heuristic(start, end));
             openSet.Enqueue(startNode);
 
             while (openSet.Count > 0)
             {
-                // »ñÈ¡µ±Ç°´ú¼Û×îĞ¡µÄ½Úµã
+                // è·å–å½“å‰ä»£ä»·æœ€å°çš„èŠ‚ç‚¹
                 var current = openSet.Dequeue();
 
-                // Èç¹ûµ½´ïÖÕµã£¬ÖØ½¨Â·¾¶²¢·µ»Ø
+                // å¦‚æœåˆ°è¾¾ç»ˆç‚¹ï¼Œé‡å»ºè·¯å¾„å¹¶è¿”å›
                 if (current.Tile.X == end.x && current.Tile.Y == end.y)
                 {
                     return ReconstructPath(current);
                 }
 
-                // ½«µ±Ç°½Úµã±ê¼ÇÎªÒÑ·ÃÎÊ
+                // å°†å½“å‰èŠ‚ç‚¹æ ‡è®°ä¸ºå·²è®¿é—®
                 closedSet.Add((current.Tile.X, current.Tile.Y));
 
-                // ±éÀúÏàÁÚ½Úµã
+                // éå†ç›¸é‚»èŠ‚ç‚¹
                 foreach (var neighbor in GetNeighbors(maze, current.Tile))
                 {
                     if (closedSet.Contains((neighbor.X, neighbor.Y)))
-                        continue; // Ìø¹ıÒÑ·ÃÎÊ½Úµã
+                        continue; // è·³è¿‡å·²è®¿é—®èŠ‚ç‚¹
 
-                    int tentativeG = current.G + 1; // ¼ÙÉèÃ¿´ÎÒÆ¶¯µÄ´ú¼ÛÎª1
+                    int tentativeG = current.G + 1; // å‡è®¾æ¯æ¬¡ç§»åŠ¨çš„ä»£ä»·ä¸º1
 
                     var neighborNode = new TileNode(neighbor, current, tentativeG, Heuristic((neighbor.X, neighbor.Y), end));
 
-                    // Èç¹ûÁÚ¾Ó²»ÔÚ¿ª·Å¼¯£¬ÔòÌí¼Ó
+                    // å¦‚æœé‚»å±…ä¸åœ¨å¼€æ”¾é›†ï¼Œåˆ™æ·»åŠ 
                     if (!openSet.Contains(neighborNode))
                     {
                         openSet.Enqueue(neighborNode);
@@ -57,16 +57,16 @@ namespace Modules.PathFinding
                 }
             }
 
-            // Èç¹ûÕÒ²»µ½Â·¾¶£¬·µ»Ø¿ÕÁĞ±í
+            // å¦‚æœæ‰¾ä¸åˆ°è·¯å¾„ï¼Œè¿”å›ç©ºåˆ—è¡¨
             return new List<Tile>();
         }
 
         /// <summary>
-        /// »ñÈ¡Ö¸¶¨ÍßÆ¬µÄÏàÁÚÍßÆ¬¡£
+        /// è·å–æŒ‡å®šç“¦ç‰‡çš„ç›¸é‚»ç“¦ç‰‡ã€‚
         /// </summary>
-        /// <param name="maze">ÃÔ¹¬¶ÔÏó¡£</param>
-        /// <param name="tile">µ±Ç°ÍßÆ¬¡£</param>
-        /// <returns>ÏàÁÚÍßÆ¬µÄÁĞ±í¡£</returns>
+        /// <param name="maze">è¿·å®«å¯¹è±¡ã€‚</param>
+        /// <param name="tile">å½“å‰ç“¦ç‰‡ã€‚</param>
+        /// <returns>ç›¸é‚»ç“¦ç‰‡çš„åˆ—è¡¨ã€‚</returns>
         private static List<Tile> GetNeighbors(Maze maze, Tile tile)
         {
             var neighbors = new List<Tile>();
@@ -87,21 +87,21 @@ namespace Modules.PathFinding
         }
 
         /// <summary>
-        /// ¼ÆËãÆô·¢Ê½º¯ÊıÖµ£¨Ê¹ÓÃÂü¹ş¶Ù¾àÀë£©¡£
+        /// è®¡ç®—å¯å‘å¼å‡½æ•°å€¼ï¼ˆä½¿ç”¨æ›¼å“ˆé¡¿è·ç¦»ï¼‰ã€‚
         /// </summary>
-        /// <param name="current">µ±Ç°½ÚµãµÄ×ø±ê¡£</param>
-        /// <param name="goal">Ä¿±ê½ÚµãµÄ×ø±ê¡£</param>
-        /// <returns>µ±Ç°½Úµãµ½Ä¿±ê½ÚµãµÄ¹ÀËã¾àÀë¡£</returns>
+        /// <param name="current">å½“å‰èŠ‚ç‚¹çš„åæ ‡ã€‚</param>
+        /// <param name="goal">ç›®æ ‡èŠ‚ç‚¹çš„åæ ‡ã€‚</param>
+        /// <returns>å½“å‰èŠ‚ç‚¹åˆ°ç›®æ ‡èŠ‚ç‚¹çš„ä¼°ç®—è·ç¦»ã€‚</returns>
         private static int Heuristic((int x, int y) current, (int x, int y) goal)
         {
             return Math.Abs(current.x - goal.x) + Math.Abs(current.y - goal.y);
         }
 
         /// <summary>
-        /// ÖØ½¨Â·¾¶£¬´ÓÖÕµã»ØËİµ½Æğµã¡£
+        /// é‡å»ºè·¯å¾„ï¼Œä»ç»ˆç‚¹å›æº¯åˆ°èµ·ç‚¹ã€‚
         /// </summary>
-        /// <param name="node">ÖÕµã½Úµã¡£</param>
-        /// <returns>°üº¬Â·¾¶ÍßÆ¬µÄÁĞ±í¡£</returns>
+        /// <param name="node">ç»ˆç‚¹èŠ‚ç‚¹ã€‚</param>
+        /// <returns>åŒ…å«è·¯å¾„ç“¦ç‰‡çš„åˆ—è¡¨ã€‚</returns>
         private static List<Tile> ReconstructPath(TileNode node)
         {
             var path = new List<Tile>();
@@ -117,14 +117,14 @@ namespace Modules.PathFinding
         }
     }
 
-    // TileNodeÀà£¬ÓÃÓÚA*Ëã·¨ÖĞµÄ½Úµã±íÊ¾
+    // TileNodeç±»ï¼Œç”¨äºA*ç®—æ³•ä¸­çš„èŠ‚ç‚¹è¡¨ç¤º
     internal class TileNode : IComparable<TileNode>
     {
-        public Tile Tile { get; } // µ±Ç°½Úµã¶ÔÓ¦µÄÍßÆ¬
-        public TileNode Parent { get; } // ¸¸½Úµã
-        public int G { get; } // ´ÓÆğµãµ½µ±Ç°½ÚµãµÄ´ú¼Û
-        public int F => G + H; // ×Ü´ú¼Û£¨G + H£©
-        public int H { get; } // Æô·¢Ê½´ú¼Û
+        public Tile Tile { get; } // å½“å‰èŠ‚ç‚¹å¯¹åº”çš„ç“¦ç‰‡
+        public TileNode Parent { get; } // çˆ¶èŠ‚ç‚¹
+        public int G { get; } // ä»èµ·ç‚¹åˆ°å½“å‰èŠ‚ç‚¹çš„ä»£ä»·
+        public int F => G + H; // æ€»ä»£ä»·ï¼ˆG + Hï¼‰
+        public int H { get; } // å¯å‘å¼ä»£ä»·
 
         public TileNode(Tile tile, TileNode parent, int g, int h)
         {

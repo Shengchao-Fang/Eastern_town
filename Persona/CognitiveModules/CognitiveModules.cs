@@ -1,5 +1,5 @@
 // CognitiveModules.cs
-// ¸ÃÎÄ¼ş¶¨ÒåÁËCognitiveModulesÀà£¬ÓÃÓÚÊµÏÖ½ÇÉ«µÄÈÏÖªÄ£¿éÂß¼­£¬°üÀ¨¸ĞÖª¡¢¼ìË÷¡¢¼Æ»®¡¢Ö´ĞĞºÍ·´Ë¼¹¦ÄÜ¡£
+// è¯¥æ–‡ä»¶å®šä¹‰äº†CognitiveModulesç±»ï¼Œç”¨äºå®ç°è§’è‰²çš„è®¤çŸ¥æ¨¡å—é€»è¾‘ï¼ŒåŒ…æ‹¬æ„ŸçŸ¥ã€æ£€ç´¢ã€è®¡åˆ’ã€æ‰§è¡Œå’Œåæ€åŠŸèƒ½ã€‚
 using System;
 using System.Collections.Generic;
 using Modules.Persona;
@@ -11,22 +11,22 @@ namespace Modules.CognitiveModules
     public static class CognitiveModules
     {
         /// <summary>
-        /// Perceive·½·¨¸ºÔğ´¦Àí½ÇÉ«¶ÔÖÜÎ§»·¾³µÄ¸ĞÖª¡£
+        /// Perceiveæ–¹æ³•è´Ÿè´£å¤„ç†è§’è‰²å¯¹å‘¨å›´ç¯å¢ƒçš„æ„ŸçŸ¥ã€‚
         /// </summary>
-        /// <param name="persona">µ±Ç°½ÇÉ«¶ÔÏó¡£</param>
-        /// <param name="maze">½ÇÉ«ËùÔÚµÄÃÔ¹¬¶ÔÏó¡£</param>
-        /// <returns>·µ»Ø½ÇÉ«¸ĞÖªµ½µÄ¸ÅÄî½ÚµãÁĞ±í¡£</returns>
+        /// <param name="persona">å½“å‰è§’è‰²å¯¹è±¡ã€‚</param>
+        /// <param name="maze">è§’è‰²æ‰€åœ¨çš„è¿·å®«å¯¹è±¡ã€‚</param>
+        /// <returns>è¿”å›è§’è‰²æ„ŸçŸ¥åˆ°çš„æ¦‚å¿µèŠ‚ç‚¹åˆ—è¡¨ã€‚</returns>
         public static List<ConceptNode> Perceive(Persona persona, Maze maze)
         {
             List<ConceptNode> perceivedNodes = new List<ConceptNode>();
 
-            // ±éÀú½ÇÉ«ÊÓÒ°·¶Î§ÄÚµÄÍßÆ¬
+            // éå†è§’è‰²è§†é‡èŒƒå›´å†…çš„ç“¦ç‰‡
             foreach (var tile in maze.GetTilesInRadius(
                 persona.ScratchMemory.CurrentTile.x,
                 persona.ScratchMemory.CurrentTile.y,
                 persona.ScratchMemory.VisionRadius))
             {
-                // Èç¹ûÍßÆ¬ÉÏ´æÔÚÊÂ¼ş£¬Ìí¼Óµ½¸ĞÖª½Úµã
+                // å¦‚æœç“¦ç‰‡ä¸Šå­˜åœ¨äº‹ä»¶ï¼Œæ·»åŠ åˆ°æ„ŸçŸ¥èŠ‚ç‚¹
                 if (tile.HasEvent)
                 {
                     perceivedNodes.Add(new ConceptNode
@@ -43,7 +43,7 @@ namespace Modules.CognitiveModules
                 }
             }
 
-            // ¸ù¾İ½ÇÉ«×¢ÒâÁ¦´ø¿íÉ¸Ñ¡¸ĞÖª½Úµã
+            // æ ¹æ®è§’è‰²æ³¨æ„åŠ›å¸¦å®½ç­›é€‰æ„ŸçŸ¥èŠ‚ç‚¹
             int attentionBandwidth = persona.ScratchMemory.AttentionBandwidth;
             if (perceivedNodes.Count > attentionBandwidth)
             {
@@ -54,32 +54,32 @@ namespace Modules.CognitiveModules
         }
 
         /// <summary>
-        /// Retrieve·½·¨¸ù¾İ¸ĞÖªµ½µÄÊÂ¼ş¼ìË÷½ÇÉ«µÄ¹ØÁª¼ÇÒä¡£
+        /// Retrieveæ–¹æ³•æ ¹æ®æ„ŸçŸ¥åˆ°çš„äº‹ä»¶æ£€ç´¢è§’è‰²çš„å…³è”è®°å¿†ã€‚
         /// </summary>
-        /// <param name="persona">µ±Ç°½ÇÉ«¶ÔÏó¡£</param>
-        /// <param name="perceived">¸ĞÖªµ½µÄ¸ÅÄî½ÚµãÁĞ±í¡£</param>
-        /// <returns>·µ»ØÒ»¸ö°üº¬Ïà¹ØÊÂ¼şºÍÏë·¨µÄ×Öµä¡£</returns>
+        /// <param name="persona">å½“å‰è§’è‰²å¯¹è±¡ã€‚</param>
+        /// <param name="perceived">æ„ŸçŸ¥åˆ°çš„æ¦‚å¿µèŠ‚ç‚¹åˆ—è¡¨ã€‚</param>
+        /// <returns>è¿”å›ä¸€ä¸ªåŒ…å«ç›¸å…³äº‹ä»¶å’Œæƒ³æ³•çš„å­—å…¸ã€‚</returns>
         public static Dictionary<string, Dictionary<string, object>> Retrieve(Persona persona, List<ConceptNode> perceived)
         {
             Dictionary<string, Dictionary<string, object>> retrieved = new Dictionary<string, Dictionary<string, object>>();
 
-            // ±éÀúÃ¿¸ö¸ĞÖªµÄÊÂ¼ş½Úµã
+            // éå†æ¯ä¸ªæ„ŸçŸ¥çš„äº‹ä»¶èŠ‚ç‚¹
             foreach (var eventNode in perceived)
             {
                 var eventDetails = new Dictionary<string, object>();
 
-                // ¼ìË÷Ïà¹ØÊÂ¼ş
+                // æ£€ç´¢ç›¸å…³äº‹ä»¶
                 var relevantEvents = persona.AssociativeMemory.GetRelevantNodesByKeyword(eventNode.Description);
                 eventDetails["events"] = relevantEvents;
 
-                // ¼ìË÷Ïà¹ØÏë·¨£¨Ê¾Àı£©
+                // æ£€ç´¢ç›¸å…³æƒ³æ³•ï¼ˆç¤ºä¾‹ï¼‰
                 var relevantThoughts = persona.AssociativeMemory.GetRelevantNodesByKeyword("thought");
                 eventDetails["thoughts"] = relevantThoughts;
 
-                // ½«µ±Ç°ÊÂ¼ş½ÚµãĞÅÏ¢Ìí¼Óµ½×Öµä
+                // å°†å½“å‰äº‹ä»¶èŠ‚ç‚¹ä¿¡æ¯æ·»åŠ åˆ°å­—å…¸
                 eventDetails["curr_event"] = eventNode;
 
-                // ½«¸ÃÊÂ¼şµÄËùÓĞÏà¹ØĞÅÏ¢´æ´¢ÔÚ¼ìË÷½á¹ûÖĞ
+                // å°†è¯¥äº‹ä»¶çš„æ‰€æœ‰ç›¸å…³ä¿¡æ¯å­˜å‚¨åœ¨æ£€ç´¢ç»“æœä¸­
                 retrieved[eventNode.Description] = eventDetails;
             }
 
@@ -87,12 +87,12 @@ namespace Modules.CognitiveModules
         }
 
         /// <summary>
-        /// Plan·½·¨¸ºÔğ¸ù¾İ¼ìË÷µ½µÄ¼ÇÒäºÍµ±Ç°Çé¿öÉú³É½ÇÉ«µÄĞĞ¶¯¼Æ»®¡£
+        /// Planæ–¹æ³•è´Ÿè´£æ ¹æ®æ£€ç´¢åˆ°çš„è®°å¿†å’Œå½“å‰æƒ…å†µç”Ÿæˆè§’è‰²çš„è¡ŒåŠ¨è®¡åˆ’ã€‚
         /// </summary>
-        /// <param name="persona">µ±Ç°½ÇÉ«¶ÔÏó¡£</param>
-        /// <param name="maze">µ±Ç°½ÇÉ«ËùÔÚµÄÃÔ¹¬¶ÔÏó¡£</param>
-        /// <param name="retrieved">´Ó¼ÇÒäÖĞ¼ìË÷µ½µÄÏà¹ØÊÂ¼şºÍÏë·¨¡£</param>
-        /// <returns>·µ»ØÒ»¸ö¶ÔÏó£¬±íÊ¾Éú³ÉµÄ¼Æ»®¡£</returns>
+        /// <param name="persona">å½“å‰è§’è‰²å¯¹è±¡ã€‚</param>
+        /// <param name="maze">å½“å‰è§’è‰²æ‰€åœ¨çš„è¿·å®«å¯¹è±¡ã€‚</param>
+        /// <param name="retrieved">ä»è®°å¿†ä¸­æ£€ç´¢åˆ°çš„ç›¸å…³äº‹ä»¶å’Œæƒ³æ³•ã€‚</param>
+        /// <returns>è¿”å›ä¸€ä¸ªå¯¹è±¡ï¼Œè¡¨ç¤ºç”Ÿæˆçš„è®¡åˆ’ã€‚</returns>
         public static object Plan(Persona persona, Maze maze, Dictionary<string, Dictionary<string, object>> retrieved)
         {
             var plan = new
@@ -101,13 +101,13 @@ namespace Modules.CognitiveModules
                 Reasoning = "Generated based on retrieved events and thoughts."
             };
 
-            // ±éÀú¼ìË÷µ½µÄÊÂ¼şºÍÏë·¨£¬¸ù¾İÄÚÈİÉú³ÉĞĞ¶¯
+            // éå†æ£€ç´¢åˆ°çš„äº‹ä»¶å’Œæƒ³æ³•ï¼Œæ ¹æ®å†…å®¹ç”Ÿæˆè¡ŒåŠ¨
             foreach (var entry in retrieved)
             {
                 var eventDescription = entry.Key;
                 var eventDetails = entry.Value;
 
-                // »ùÓÚÊÂ¼şÉú³É¼òµ¥ĞĞ¶¯¼Æ»®£¨Ê¾Àı£©
+                // åŸºäºäº‹ä»¶ç”Ÿæˆç®€å•è¡ŒåŠ¨è®¡åˆ’ï¼ˆç¤ºä¾‹ï¼‰
                 plan.Actions.Add($"Investigate: {eventDescription}");
             }
 
@@ -115,11 +115,11 @@ namespace Modules.CognitiveModules
         }
 
         /// <summary>
-        /// Execute·½·¨¸ºÔğÖ´ĞĞ½ÇÉ«µÄĞĞ¶¯¼Æ»®¡£
+        /// Executeæ–¹æ³•è´Ÿè´£æ‰§è¡Œè§’è‰²çš„è¡ŒåŠ¨è®¡åˆ’ã€‚
         /// </summary>
-        /// <param name="persona">µ±Ç°½ÇÉ«¶ÔÏó¡£</param>
-        /// <param name="plan">½ÇÉ«Éú³ÉµÄĞĞ¶¯¼Æ»®¡£</param>
-        /// <returns>·µ»ØÖ´ĞĞ½á¹û£¬Í¨³£ÊÇÒ»¸öÃèÊöÖ´ĞĞÇé¿öµÄ×Ö·û´®¡£</returns>
+        /// <param name="persona">å½“å‰è§’è‰²å¯¹è±¡ã€‚</param>
+        /// <param name="plan">è§’è‰²ç”Ÿæˆçš„è¡ŒåŠ¨è®¡åˆ’ã€‚</param>
+        /// <returns>è¿”å›æ‰§è¡Œç»“æœï¼Œé€šå¸¸æ˜¯ä¸€ä¸ªæè¿°æ‰§è¡Œæƒ…å†µçš„å­—ç¬¦ä¸²ã€‚</returns>
         public static string Execute(Persona persona, object plan)
         {
             if (plan == null || !(plan is dynamic))
@@ -127,7 +127,7 @@ namespace Modules.CognitiveModules
                 return "Invalid plan provided.";
             }
 
-            // Ê¾ÀıÖ´ĞĞÂß¼­
+            // ç¤ºä¾‹æ‰§è¡Œé€»è¾‘
             var actions = plan.Actions as List<string>;
             if (actions == null || actions.Count == 0)
             {
@@ -144,15 +144,15 @@ namespace Modules.CognitiveModules
         }
 
         /// <summary>
-        /// Reflect·½·¨¸ºÔğ½ÇÉ«¶ÔÒ»ÌìµÄ×Ü½áºÍ·´Ë¼¡£
+        /// Reflectæ–¹æ³•è´Ÿè´£è§’è‰²å¯¹ä¸€å¤©çš„æ€»ç»“å’Œåæ€ã€‚
         /// </summary>
-        /// <param name="persona">µ±Ç°½ÇÉ«¶ÔÏó¡£</param>
-        /// <returns>·µ»ØÒ»¸ö×Ö·û´®£¬±íÊ¾·´Ë¼ÄÚÈİ¡£</returns>
+        /// <param name="persona">å½“å‰è§’è‰²å¯¹è±¡ã€‚</param>
+        /// <returns>è¿”å›ä¸€ä¸ªå­—ç¬¦ä¸²ï¼Œè¡¨ç¤ºåæ€å†…å®¹ã€‚</returns>
         public static string Reflect(Persona persona)
         {
             string reflection = "Reflection for the day:\n";
 
-            // ±éÀú¼ÇÒä½Úµã£¬ÌáÈ¡µ±ÌìµÄÖ÷ÒªÊÂ¼şºÍÏë·¨
+            // éå†è®°å¿†èŠ‚ç‚¹ï¼Œæå–å½“å¤©çš„ä¸»è¦äº‹ä»¶å’Œæƒ³æ³•
             foreach (var node in persona.AssociativeMemory.Nodes.Values)
             {
                 if (node.Created.Date == DateTime.Now.Date)

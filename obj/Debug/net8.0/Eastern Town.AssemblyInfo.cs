@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Eastern Town")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b9df978051dfef6b087b65df2de840bd6899b5c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7388980e0dd7506d721aea5639689f03ff5ac17d")]
 [assembly: System.Reflection.AssemblyProductAttribute("Eastern Town")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Eastern Town")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

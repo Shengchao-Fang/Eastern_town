@@ -1,5 +1,5 @@
 // MemoryTree.cs
-// ¸ÃÎÄ¼ş¶¨ÒåÁËMemoryTreeÀà£¬¹ÜÀí½ÇÉ«µÄ¿Õ¼ä¼ÇÒä¡£
+// è¯¥æ–‡ä»¶å®šä¹‰äº†MemoryTreeç±»ï¼Œç®¡ç†è§’è‰²çš„ç©ºé—´è®°å¿†ã€‚
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,13 +7,13 @@ using Newtonsoft.Json;
 
 namespace Modules.MemoryStructures
 {
-    // MemoryTreeÀàÀ©Õ¹£¬Ö§³Ö¼ÇÒäÓÅÏÈ¼¶ºÍ¹ıÆÚ´¦Àí
+    // MemoryTreeç±»æ‰©å±•ï¼Œæ”¯æŒè®°å¿†ä¼˜å…ˆçº§å’Œè¿‡æœŸå¤„ç†
     public class MemoryTree
     {
-        // Ê÷ĞÎ½á¹¹´æ´¢¼ÇÒäÊı¾İ
+        // æ ‘å½¢ç»“æ„å­˜å‚¨è®°å¿†æ•°æ®
         public Dictionary<string, object> Tree { get; private set; }
 
-        // ¹¹Ôìº¯Êı£¬¼ÓÔØ±£´æµÄ¼ÇÒäÊ÷ÎÄ¼ş»ò³õÊ¼»¯¿ÕÊ÷
+        // æ„é€ å‡½æ•°ï¼ŒåŠ è½½ä¿å­˜çš„è®°å¿†æ ‘æ–‡ä»¶æˆ–åˆå§‹åŒ–ç©ºæ ‘
         public MemoryTree(string savedFilePath)
         {
             Tree = File.Exists(savedFilePath)
@@ -21,13 +21,13 @@ namespace Modules.MemoryStructures
                 : new Dictionary<string, object>();
         }
 
-        // ±£´æ¼ÇÒäÊ÷µ½Ö¸¶¨ÎÄ¼şÂ·¾¶
+        // ä¿å­˜è®°å¿†æ ‘åˆ°æŒ‡å®šæ–‡ä»¶è·¯å¾„
         public void Save(string outputPath)
         {
             File.WriteAllText(outputPath, JsonConvert.SerializeObject(Tree, Formatting.Indented));
         }
 
-        // Ìí¼Ó¼ÇÒäÌõÄ¿£¬°üÀ¨ÓÅÏÈ¼¶ºÍ¹ıÆÚÊ±¼ä
+        // æ·»åŠ è®°å¿†æ¡ç›®ï¼ŒåŒ…æ‹¬ä¼˜å…ˆçº§å’Œè¿‡æœŸæ—¶é—´
         public void AddMemory(string key, object value, int priority = 1, DateTime? expiration = null)
         {
             var memory = new Dictionary<string, object>
@@ -39,7 +39,7 @@ namespace Modules.MemoryStructures
             Tree[key] = memory;
         }
 
-        // ÒÆ³ıËùÓĞÒÑ¹ıÆÚµÄ¼ÇÒäÌõÄ¿
+        // ç§»é™¤æ‰€æœ‰å·²è¿‡æœŸçš„è®°å¿†æ¡ç›®
         public void RemoveExpiredMemories()
         {
             foreach (var key in new List<string>(Tree.Keys))
@@ -55,7 +55,7 @@ namespace Modules.MemoryStructures
             }
         }
 
-        // »ñÈ¡ÓÅÏÈ¼¶×î¸ßµÄ¼ÇÒäÌõÄ¿
+        // è·å–ä¼˜å…ˆçº§æœ€é«˜çš„è®°å¿†æ¡ç›®
         public object GetHighestPriorityMemory()
         {
             object highestPriorityMemory = null;
@@ -77,36 +77,36 @@ namespace Modules.MemoryStructures
             return highestPriorityMemory;
         }
 
-        // ´òÓ¡Õû¸ö¼ÇÒäÊ÷µÄ½á¹¹
+        // æ‰“å°æ•´ä¸ªè®°å¿†æ ‘çš„ç»“æ„
         public void PrintTree()
         {
             PrintTreeRecursive(Tree, 0);
         }
 
-        // µİ¹é´òÓ¡¼ÇÒäÊ÷
-        // ÊäÈë£º
-        //   - tree: µ±Ç°µÄ¼ÇÒä×ÓÊ÷¡£
-        //   - depth: µ±Ç°×ÓÊ÷µÄÉî¶È£¬ÓÃÓÚËõ½ø±íÊ¾¡£
+        // é€’å½’æ‰“å°è®°å¿†æ ‘
+        // è¾“å…¥ï¼š
+        //   - tree: å½“å‰çš„è®°å¿†å­æ ‘ã€‚
+        //   - depth: å½“å‰å­æ ‘çš„æ·±åº¦ï¼Œç”¨äºç¼©è¿›è¡¨ç¤ºã€‚
         private void PrintTreeRecursive(Dictionary<string, object> tree, int depth)
         {
-            // Ê¹ÓÃÆÆÕÛºÅ±íÊ¾Ê÷µÄ²ã´Î½á¹¹
+            // ä½¿ç”¨ç ´æŠ˜å·è¡¨ç¤ºæ ‘çš„å±‚æ¬¡ç»“æ„
             string dash = new string('-', depth * 2);
             foreach (var entry in tree)
             {
-                // ´òÓ¡µ±Ç°¼ü
+                // æ‰“å°å½“å‰é”®
                 Console.WriteLine($"{dash} {entry.Key}");
 
-                // Èç¹ûÖµÊÇ×ÓÊ÷£¬Ôòµİ¹é´òÓ¡
+                // å¦‚æœå€¼æ˜¯å­æ ‘ï¼Œåˆ™é€’å½’æ‰“å°
                 if (entry.Value is Dictionary<string, object> subTree)
                 {
                     PrintTreeRecursive(subTree, depth + 1);
                 }
-                // Èç¹ûÖµÊÇÁĞ±í£¬ÔòÖ±½Ó´òÓ¡ÄÚÈİ
+                // å¦‚æœå€¼æ˜¯åˆ—è¡¨ï¼Œåˆ™ç›´æ¥æ‰“å°å†…å®¹
                 else if (entry.Value is List<object> list)
                 {
                     Console.WriteLine($"{dash} {string.Join(", ", list)}");
                 }
-                // Èç¹ûÖµÊÇÆäËûÀàĞÍ£¬ÔòÖ±½Ó´òÓ¡Öµ
+                // å¦‚æœå€¼æ˜¯å…¶ä»–ç±»å‹ï¼Œåˆ™ç›´æ¥æ‰“å°å€¼
                 else
                 {
                     Console.WriteLine($"{dash} {entry.Value}");
